@@ -1,0 +1,173 @@
+/*
+Theme Name: Projet CMS
+Theme URI: https://esgi.fr
+Author: Groupe 8
+Author URI: https://wordpress.org/
+Description: Thème du projet CMS esgi 2023
+Requires at least: 5.3
+Tested up to: 6.0
+Requires PHP: 5.6
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ESGI
+
+*/
+
+html, body{
+    height: 100%;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+main{
+    flex-grow: 1;
+}
+
+#site-header .menu-item > a{
+    text-decoration: none;
+} 
+
+#site-header .custom-logo-link{
+    display: block;
+}
+
+#site-header .custom-logo-link:focus-visible,
+#site-header .custom-logo-link:focus,
+#site-header .custom-logo-link:hover,
+#site-header .menu-item > a:focus-visible,
+#site-header .menu-item > a:focus,
+#site-header .menu-item > a:hover{
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+    background-position: bottom;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+}
+
+#site-header:not(.open){
+    background-color: rgba(var(--pcms-h-bg-menu-close), var(--pcms-h-bg-alpha-menu-close));
+}
+
+#site-header.open{
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(var(--pcms-h-bg-menu-open), var(--pcms-h-bg-alpha-menu-open));
+}
+
+#site-header #menu-button-open{
+    fill : var(--pcms-h-menu-open);
+}
+
+#site-header #menu-button-close{
+    fill : var(--pcms-h-menu-close);
+}
+
+#site-header .menu-item-link{
+    color : var(--pcms-h-menu-item);
+}
+
+.archives .archive-li{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.archives .archive-li::before{
+    content : '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+}
+
+.archives .archive-li a{
+    text-decoration: none;
+    color : var(--bs-secondary);
+}
+
+.categories .category-li{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.categories .category-li::before{
+    content : '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+}
+
+.pagination{
+    display: flex;
+    align-items: center;
+    color : var(--bs-primary);
+}
+
+.pagination > * {
+    padding: .5rem .7rem;
+}
+
+.pagination .page-numbers.current{
+    background-color : var(--bs-primary);
+    color : var(--bs-white);
+}
+
+.pagination .page-numbers{
+    text-decoration: none;
+}
+
+.pagination .page-numbers:not(.current){
+    color : var(--bs-primary);
+}
+
+.pagination .page-numbers:not(.current):hover{
+    background-color : var(--bs-primary);
+    color : var(--bs-white);
+}
+
+.infos{
+    color : var(--bs-primary);
+    font-weight: 700;
+}
+
+#not-found-input-text:valid{
+    background-color: transparent;
+}
+
+#footer-site{
+    background-color: var(--pmcs-f-bg);
+}
+
+#footer-site .motto{
+    color : var(--pmcs-f-text-color);
+}
+
+#footer-site .socials .social-footer-link{
+    color : var(--pcms-f-social-link);
+    padding: .5rem;
+}
+
+#footer-site .socials .social-footer-link .social-footer-icon{
+    fill : var(--pcms-f-social-link);
+}
+
+#footer-site .socials .social-footer-link:focus-visible,
+#footer-site .socials .social-footer-link:focus,
+#footer-site .socials .social-footer-link:hover{
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+    background-position: bottom;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+}
