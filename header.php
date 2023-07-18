@@ -16,7 +16,7 @@
     <?php wp_body_open(); ?>
     <!-- START HEADER -->
     <header id="site-header">
-        <div class="container px-0 py-4">
+        <div class="container px-4 px-lg-0 py-4 h-100">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="logo">
                     <?= get_custom_logo()?>
@@ -50,4 +50,4 @@
 
     <!-- START MAIN CONTENT-->
     <main id="main">
-        <div class="container px-0 py-4">
+        <div class="container px-4 px-lg-0 py-4 h-100">

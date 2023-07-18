@@ -1,13 +1,18 @@
 /* 
- * MENU ITEMS EN BLANC
+ * MENU ITEMS HEADER EN BLANC
 */
-const menuItems = document.querySelectorAll('.menu-item a');
+const menuItems = document.querySelectorAll('#site-header .menu-item a');
 
 menuItems.forEach(function(menuItem) {
     menuItem.classList.add('menu-item-link', 'fs-3');
-  });
+});
 
 
+const menuItemsFooter = document.querySelectorAll('#menu-footer-menu .menu-item a');
+
+menuItemsFooter.forEach(function(menuItem) {
+    menuItem.classList.add('menu-item-footer-link', 'fs-6');
+});
 
 /* 
  *GESTION DE L'AFFICHAGE DU MENU
