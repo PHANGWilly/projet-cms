@@ -10,7 +10,11 @@
                 foreach ($s3Infos as $s3Info) {
                     ?>
                         <div class="col-12 col-lg d-flex flex-column gap-1 gap-lg-4">
-                            <img src="<?=get_theme_mod("pcms_aus_s3_${s3Info}_image");?>" alt="" class="w-100 h-100">
+                            <?php if(get_theme_mod("pcms_aus_s3_${s3Info}_image")) : ?>
+                                <img src="<?=get_theme_mod("pcms_aus_s3_${s3Info}_image");?>" alt="" class="w-100 h-100">
+                            <?php else : ?>
+                                <img src="get_site_url();?>/wp-content/themes/projet-cms/img/<?="${s3Info}";?>.png" alt="" class="w-100 h-100">
+                            <?php endif; ?>
                             <div class="container">
                                 <h3><?=get_theme_mod("pcms_aus_s3_${s3Info}_membre");?></h3>
                                 <div class="aus-social-links">

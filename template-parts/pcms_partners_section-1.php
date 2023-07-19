@@ -7,7 +7,11 @@
                     ?>
                         <div class="col-3 col-sm-6 col-lg">
                             <a href="<?= get_theme_mod("pcms_partners_link_${partner}", "#");?>" class="partner-link d-block">
-                                <img src="<?= get_theme_mod("pcms_partners_logo_${partner}", "#");?>" alt="" class="partner-logo d-flex align-items-center w-100 h-100 w-lg-50 h-lg-50">
+                                <?php if (get_theme_mod("pcms_partners_logo_${partner}", "#")) : ?>
+                                    <img src="<?= get_theme_mod("pcms_partners_logo_${partner}", "#");?>" alt="" class="partner-logo d-flex align-items-center w-100 h-100 w-lg-50 h-lg-50">
+                                <?php else : ?>
+                                    <img src="<?=get_site_url();?>/wp-content/themes/projet-cms/img/<?="${partner}";?>" alt="" class="partner-logo d-flex align-items-center w-100 h-100 w-lg-50 h-lg-50">
+                                <?php endif; ?>
                             </a>
                         </div>
                     <?php

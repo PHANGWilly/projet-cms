@@ -11,58 +11,37 @@ $search_results = new WP_Query(array(
 $results_by_type = array();
 ?>
 
-<main id="site-content">
-    <div class="container">
-        <div class="col-md-6 offset-md-3">
-            <?php if(isset($_GET["s"])){?>
-                <header class="page-header">
-                    <h1 class="page-title">
-                        <?php 
-                        if ($search_results->have_posts()) {
-                            echo 'Résultats de la recherche pour : <br>'.get_search_query();
-                        }else{
-                            echo 'Aucun résultat';
-                        }
-                        ?>
-                    </h1>
-                </header>
-                <div class="post-list-wrapper">
-                    <section class="posts-list">
-                        <?php
-                            if ($search_results->have_posts()) {
-                                while ($search_results->have_posts()) {
-                                    $search_results->the_post();
-
-                                    $post_type = get_post_type();
-
-                                    if (!isset($results_by_type[$post_type])) {
-                                        $results_by_type[$post_type] = array();
-                                    }
-                                    $results_by_type[$post_type][] = '<a href="' . get_permalink() . '">' . get_the_title() . '</a>';
-                                }
-                            }else{
-                                ?> 
-                                    <h2>Aucun article trouvé</h2>
-                                <?php
-                            }
-
-                            foreach ($results_by_type as $post_type => $results) {
-                                if (!empty($results)) {
-                                    echo '<h2>'. count($results) . ' ' . ($post_type === 'post' ? 'article.s' : 'page.s') . ' trouvé.s</h2>';
-                                    echo '<ul>';
-                                    foreach ($results as $result) {
-                                        echo '<li>' . $result . '</li>';
-                                    }
-                                    echo '</ul>';
-                                }
-                            }
-                        ?>
-                    </section>
-                <?php }; ?>
+<section class="search">
+    <?php if(isset($_GET["s"])) :?>
+        <header class="page-header">
+            <h1 class="page-title">
+                <?php if ($search_results->have_posts()) :?>
+                    Search results for : <span><?=get_search_query();?></span>
+                <?php else : ?>
+                    Nothing for : <span><?=get_search_query();?></span>
+                <?php endif;?>
+            </h1>
+        </header>
+        <?php if ($search_results->have_posts()) : ?>
+            <div class="post-list-wrapper my-5">
+                <div class="posts-list">
+                    <div class="row row-cols-1 row-cols-md-3">
+                        <?php while ($search_results->have_posts()) : ?>
+                            <?php $search_results->the_post(); ?>
+                            <div class="col-12 col-sm-6 col-md-4 my-3">
+                                <article class="text-decoration-none border py-4 px-2 d-flex flex-column w-100 h-100">
+                                    <h2><?= the_title(); ?></h2>
+                                    <h6 class="pb-2"><?= get_the_date(); ?></h6>
+                                    <p><?= wp_trim_words(get_the_content(), 20); ?></p>
+                                    <a href="<?= get_permalink(); ?>" class="btn">See More</a>
+                                </article>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
             </div>
-
-        </div>
-    </div>
-</main>
+        <?php endif; ?>
+    <?php endif ; ?>
+</section>
 
 <?php get_footer(); ?>

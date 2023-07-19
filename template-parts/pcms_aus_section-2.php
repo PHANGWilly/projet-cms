@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-12 d-flex flex-column gap-4 flex-lg-row align-items-center">
                 <div class="col">
-                    <img src="<?=get_theme_mod("pcms_aus_s2_image", "#");?>" alt="" class="w-100 h-100">
+                    <?php if (get_theme_mod("pcms_aus_s2_image", "#")) : ?>
+                        <img src="<?=get_theme_mod("pcms_aus_s2_image", "#");?>" alt="" class="w-100 h-100">
+                    <?php else : ?>
+                        <img src="<?=get_site_url();?>/wp-content/themes/projet-cms/img/aus-s2-image.png" alt="" class="w-100 h-100">
+                    <?php endif; ?>
                 </div>
                 <div class="col d-flex flex-column gap-2">
                     <?php $infos = array ('info-1', 'info-2', 'info-3'); ?>
@@ -15,7 +19,7 @@
                                     <div class="container px-0">
                                         <h2><?=get_theme_mod("pcms_aus_s2_${info}_title", "#");?></h2>
                                         <p class="main-text">
-                                            <?=get_theme_mod("pcms_aus_s2_${info}_description", "#");?>
+                                            <?= nl2br(esc_html(get_theme_mod("pcms_aus_s2_${info}_description", "#")));?>
                                         </p>
                                     </div>
                                 <?php

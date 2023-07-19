@@ -7,7 +7,11 @@
                     ?>
                         <div class="col">
                             <div class="position-relative overlay">
-                                <img src="<?=get_theme_mod("pcms_services_s1_image_${info}", "#")?>" alt="" class="img-fluid w-100 h-100">
+                                <?php if (get_theme_mod("pcms_services_s1_image_${info}", "#")) : ?>
+                                    <img src="<?=get_theme_mod("pcms_services_s1_image_${info}", "#")?>" alt="" class="img-fluid w-100 h-100">
+                                <?php else : ?>
+                                    <img src="<?=get_site_url();?>/wp-content/themes/projet-cms/img/<?="${info}";?>.png" alt="" class="img-fluid w-100 h-100">
+                                <?php endif; ?>
                                 <div class="position-absolute top-50 start-50 translate-middle">
                                     <h4 class="special-underline text-white text-center w-100"><?=get_theme_mod("pcms_services_s1_title_${info}", "#")?></h4>
                                 </div>                            

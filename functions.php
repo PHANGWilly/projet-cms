@@ -16,7 +16,7 @@ function esgi_supports() {
 
 function bootstrap_esgi_register_assets_css() {
     //css
-    wp_register_style('bootstrap-esgi-css', get_template_directory_uri() . '/src/bootstrap/css/bootstrap.css');
+    wp_register_style('bootstrap-esgi-css', get_template_directory_uri() . '/src/bootstrap/css/bootstrap.min.css');
     wp_enqueue_style('bootstrap-esgi-css');
 }
 add_action('wp_enqueue_scripts', 'bootstrap_esgi_register_assets_css');
@@ -47,7 +47,7 @@ add_action('wp_enqueue_scripts', 'esgi_register_assets_js');
 /*----------------RÉGLAGES DU THÈME----------------*/
 /**************************************************/
 
-/* SECTION */
+/* PANEL - SECTION */
 add_action( 'customize_register', 'pcms_general' );
 function pcms_general( $wp_customize ) {
 	// Ajouter une section dans customize.php
@@ -57,22 +57,23 @@ function pcms_general( $wp_customize ) {
         'priority' => 1,
 	) );
 
-	// Ajout des réglages du thème
-	$wp_customize->add_setting('pcms_main_color', array(
+	//bg color
+	$wp_customize->add_setting('pcms_main_bg_color', array(
 		'type' => 'theme_mod',
 		'transport' => 'refresh',
-		'default' => '#050A3A',
+		'default' => '#FFFFFF',
   		'sanitize_callback' => 'sanitize_hex_color',
 	));
 
 	$wp_customize->add_control( 
         new WP_Customize_Color_Control( 
             $wp_customize, 
-		'pcms_main_color', array(
-	  	'label' => __( 'Couleur principale du thème.'),
+		'pcms_main_bg_color', array(
+	  	'label' => __( 'BG Color - Body.'),
 	  	'section' => 'pcms_general',
 	) ) );
     
+    //text color
     $wp_customize->add_setting('pcms_main_text_color', array(
 		'type' => 'theme_mod',
 		'transport' => 'refresh',
@@ -84,13 +85,142 @@ function pcms_general( $wp_customize ) {
         new WP_Customize_Color_Control( 
             $wp_customize, 
 		'pcms_main_text_color', array(
-	  	'label' => __( 'Couleur principale des textes du thème.'),
+	  	'label' => __( 'Text Color.'),
 	  	'section' => 'pcms_general',
 	) ) );
+
+    //text font size
+    $wp_customize->add_setting("pcms_main_text_fs", array(
+        'type' => 'theme_mod',
+        'default' => "1rem",
+        'sanitize_callback' => 'sanitize_text_field', 
+    ));
     
+    $wp_customize->add_control("pcms_main_text_fs", array(
+        'type' => 'text',
+        'section' => 'pcms_general', 
+        'label' => "Text Font Size : (px, rem, em)",
+    ));
+
+    //line-height
+    $wp_customize->add_setting("pcms_main_text_lh", array(
+        'type' => 'theme_mod',
+        'default' => 1.2,
+        'sanitize_callback' => 'sanitize_text_field', 
+    ));
+    
+    $wp_customize->add_control("pcms_main_text_lh", array(
+        'type' => 'number',
+        'section' => 'pcms_general', 
+        'label' => "Text : Line-Height",
+    ));
+
+    //text weight
+    $wp_customize->add_setting("pcms_main_text_weight", array(
+        'type' => 'theme_mod',
+        'default' => 400,
+        'sanitize_callback' => 'sanitize_text_field', 
+    ));
+    
+    $wp_customize->add_control("pcms_main_text_weight", array(
+        'type' => 'range',
+        'section' => 'pcms_general', 
+        'label' => "Text : Font Weight",
+        'input_attrs' => array(
+            'min' => 0,
+            'max' => 900,
+            'step' => 50,
+        ),
+    ));
+
+    //heading 
+    $headings = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+    foreach ($headings as $heading){
+        //heading color
+        $wp_customize->add_setting("pcms_main_${heading}_color", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'default' => '#050a3a',
+                'sanitize_callback' => 'sanitize_hex_color',
+        ));
+    
+        $wp_customize->add_control( 
+            new WP_Customize_Color_Control( 
+                $wp_customize, 
+            "pcms_main_${heading}_color", array(
+                'label' => __( "Heading Color : ${heading}"),
+                'section' => 'pcms_general',
+        ) ) );
+
+        //heading weight
+        $wp_customize->add_setting("pcms_main_${heading}_weight", array(
+            'type' => 'theme_mod',
+            'default' => 400,
+            'sanitize_callback' => 'sanitize_text_field', 
+        ));
+        
+        $wp_customize->add_control("pcms_main_${heading}_weight", array(
+            'type' => 'range',
+            'section' => 'pcms_general', 
+            'label' => "Heading Weight : ${heading}",
+            'input_attrs' => array(
+                'min' => 0,
+                'max' => 900,
+                'step' => 50,
+            ),
+        ));
+
+        //heading font size
+        $wp_customize->add_setting("pcms_main_${heading}_fs", array(
+            'type' => 'theme_mod',
+            'default' => "2rem",
+            'sanitize_callback' => 'sanitize_text_field', 
+        ));
+        
+        $wp_customize->add_control("pcms_main_${heading}_fs", array(
+            'type' => 'text',
+            'section' => 'pcms_general', 
+            'label' => "Heading Font Size : ${heading} (px, rem, em)",
+        ));
+    }
+
+    //bg btn
+    $wp_customize->add_setting("pcms_main_btn_bg_clr", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#050a3a',
+            'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+            $wp_customize, 
+        "pcms_main_btn_bg_clr", array(
+            'label' => __( "Button : BG"),
+            'section' => 'pcms_general',
+    ) ) );
+
+    //text clr btn
+    $wp_customize->add_setting("pcms_main_btn_text_clr", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#FFFFFF',
+            'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+            $wp_customize, 
+        "pcms_main_btn_text_clr", array(
+            'label' => __( "Button : Text Color"),
+            'section' => 'pcms_general',
+    ) ) );
+
+
+
 }
 
-/* SECTION */
+/* PANEL - SECTION */
 /*  HEADER */
 add_action( 'customize_register', 'pcms_header' );
 function pcms_header( $wp_customize ) {
@@ -121,7 +251,7 @@ function pcms_header( $wp_customize ) {
     //bg header alpha when menu close
     $wp_customize->add_setting('pcms_h_bg_alpha_menu_close', array(
         'type' => 'theme_mod',
-        'default' => 3,
+        'default' => 0,
         'sanitize_callback' => 'sanitize_text_field', 
         'sanitize_js_callback' => 'sanitize_text_field',
     ));
@@ -238,7 +368,7 @@ function pcms_header( $wp_customize ) {
     ) ) );
 }
 
-/* SECTION  */
+/* PANEL - SECTION */
 /*  FOOTER */
 add_action( 'customize_register', 'pcms_footer' );
 function pcms_footer( $wp_customize ) {
@@ -355,6 +485,7 @@ function pcms_footer( $wp_customize ) {
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_text_field',
+            'default' => 'Member Name',
         ));
 
         $wp_customize->add_control(
@@ -371,6 +502,7 @@ function pcms_footer( $wp_customize ) {
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_text_field',
+            'default' => 'Post Member',
         ));
 
         $wp_customize->add_control(
@@ -387,6 +519,7 @@ function pcms_footer( $wp_customize ) {
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_text_field',
+            'default' => '#',
         ));
 
         $wp_customize->add_control(
@@ -395,7 +528,6 @@ function pcms_footer( $wp_customize ) {
                 'label' => "Tel : ${membre}",
                 'section' => 'pcms_footer',
                 'type' => 'text',
-                'default' => '#',
                 'input_attrs' => array(
                     'placeholder' => __( 'format : 0X XX XX XX XX', 'directorist' ),
                 )
@@ -406,6 +538,7 @@ function pcms_footer( $wp_customize ) {
         $wp_customize->add_setting("pcms_f_${membre}_email", array(
             'type' => 'theme_mod',
             'transport' => 'refresh',
+            'default' => '#',
         ));
 
         $wp_customize->add_control(
@@ -414,7 +547,6 @@ function pcms_footer( $wp_customize ) {
                 'label' => "Email : ${membre}",
                 'section' => 'pcms_footer',
                 'type' => 'email',
-                'default' => '#',
             )
         );
     }
@@ -476,7 +608,7 @@ function pcms_footer( $wp_customize ) {
     }
 }
 
-/* SECTION */
+/* PANEL - TEMPLATE - SECTION */
 /* INDEX */
 add_action( 'customize_register', 'pcms_index' );
 function pcms_index( $wp_customize ) {
@@ -581,7 +713,7 @@ function pcms_index( $wp_customize ) {
     }
 }
 
-/* SECTION */
+/* PANEL - TEMPLATE - SECTION */
 /*  ABOUT US */
 add_action('customize_register', 'pcms_about_us');
 function pcms_about_us ( $wp_customize ) {
@@ -632,6 +764,7 @@ function pcms_about_us ( $wp_customize ) {
         'type' => 'theme_mod',
         'transport' => 'refresh',
         'sanitize_callback' => 'sanitize_text_field',
+        "default" => "Sky's the limit",
     ));
 
     $wp_customize->add_control(
@@ -648,6 +781,7 @@ function pcms_about_us ( $wp_customize ) {
         'type' => 'theme_mod',
         'transport' => 'refresh',
         'sanitize_callback' => 'sanitize_textarea_field',
+        "default" => "Specializing in the creation of exceptional events for private and corporate clients, we design, plan and manage every project from conception to execution. ", 
     ));
 
     $wp_customize->add_control(
@@ -734,7 +868,7 @@ function pcms_about_us ( $wp_customize ) {
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_textarea_field',
-            'default' => 'Extraordinary Description.',
+            'default' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu convallis elit, at convallis magna.',
         ));
 
         $wp_customize->add_control(
@@ -862,7 +996,7 @@ function pcms_about_us ( $wp_customize ) {
 
 }
 
-/* SECTION */
+/* PANEL - TEMPLATE - SECTION */
 /*  SERVICES */
 add_action('customize_register', 'pcms_services');
 function pcms_services ( $wp_customize ) {
@@ -898,6 +1032,7 @@ function pcms_services ( $wp_customize ) {
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_text_field',
+            "default" => "${info}",
         ));
 
         $wp_customize->add_control(
@@ -948,6 +1083,7 @@ function pcms_services ( $wp_customize ) {
         'type' => 'theme_mod',
         'transport' => 'refresh',
         'sanitize_callback' => 'sanitize_text_field',
+        "default" => "Corp. Parties.",
     ));
 
     $wp_customize->add_control(
@@ -964,6 +1100,7 @@ function pcms_services ( $wp_customize ) {
         'type' => 'theme_mod',
         'transport' => 'refresh',
         'sanitize_callback' => 'sanitize_textarea_field',
+        "default" => "Specializing in the creation of exceptional events for private and corporate clients, we design, plan and manage every project from conception to execution.",
     ));
 
     $wp_customize->add_control(
@@ -993,8 +1130,7 @@ function pcms_services ( $wp_customize ) {
     );
 }
 
-
-/* SECTION */
+/* PANEL - TEMPLATE - SECTION */
 /*  PARTNERS */
 add_action('customize_register', 'pcms_partners');
 function pcms_partners ( $wp_customize ) { 
@@ -1029,6 +1165,7 @@ function pcms_partners ( $wp_customize ) {
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_text_field',
+            'default' => "${partner}.com",
         ));
 
         $wp_customize->add_control(
@@ -1044,6 +1181,7 @@ function pcms_partners ( $wp_customize ) {
         $wp_customize->add_setting("pcms_partners_logo_${partner}", array(
             'type' => 'theme_mod',
             'transport' => 'refresh',
+            'default' => "",
             'sanitize_callback' => 'sanitize_text_field',
         ));
 
@@ -1060,6 +1198,153 @@ function pcms_partners ( $wp_customize ) {
 
 }
 
+/* PANEL - TEMPLATE - SECTION */
+/*  CONTACTS */
+add_action('customize_register', 'pcms_contacts');
+function pcms_contacts ( $wp_customize ) { 
+    $wp_customize->add_section( 'pcms_contacts', array(
+        'title' =>  'Projet CMS - Contacts',
+        'description' => 'Customisation : Contacts',
+        'priority' => 8,
+        'section' => 'pcms_contacts',
+	) );
+
+    //description contact
+    $wp_customize->add_setting("pcms_contacts_description", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => "A desire for a big big party or a very select congress? Contact us.",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_contacts_description",
+        array(
+            'label' => "Description",
+            'section' => 'pcms_contacts',
+            'type' => 'textarea',
+        )
+    );
+
+    //Title
+    $wp_customize->add_setting("pcms_contacts_location_title", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => "Location",
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_contacts_location_title",
+        array(
+            'label' => "Info Title",
+            'section' => 'pcms_contacts',
+            'type' => 'text',
+        )
+    );
+
+    //Description
+    $wp_customize->add_setting("pcms_contacts_location_description", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => "242 Rue du Faubourg Saint-Antoine<br>75020 Paris<br>FRANCE",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_contacts_location_description",
+        array(
+            'label' => "Info Description",
+            'section' => 'pcms_contacts',
+            'type' => 'textarea',
+        )
+    );
+
+    //Title Info Phone / Email
+    $wp_customize->add_setting("pcms_contacts_location_info", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => "Phone / Email",
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_contacts_location_info",
+        array(
+            'label' => "Info : Phone / Email",
+            'section' => 'pcms_contacts',
+            'type' => 'text',
+        )
+    );
+
+    //phone
+    $wp_customize->add_setting("pcms_contacts_location_info_phone", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => "01 64 98 26 34",
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_contacts_location_info_phone",
+        array(
+            'label' => "Info : Phone",
+            'section' => 'pcms_contacts',
+            'type' => 'text',
+        )
+    );
+
+    //email
+    $wp_customize->add_setting("pcms_contacts_location_info_email", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => "contac@pcms.fr",
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_contacts_location_info_email",
+        array(
+            'label' => "Info : Email",
+            'section' => 'pcms_contacts',
+            'type' => 'text',
+        )
+    );
+
+
+}
+
+/* PANEL - TEMPLATE - SECTION */
+/*  CUSTOM */
+add_action('customize_register', 'pcms_custom');
+function pcms_custom ( $wp_customize ) { 
+    $wp_customize->add_section( 'pcms_custom', array(
+        'title' =>  'Projet CMS - CUSTOM',
+        'description' => 'Customisation : Customs Template',
+        'priority' => 9,
+        'section' => 'pcms_custom',
+	) );
+
+    //li color ::marker
+    $wp_customize->add_setting('pcms_custom_li_marker', array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#050A3A',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+        $wp_customize, 
+        'pcms_custom_li_marker', 
+        array(
+            'label' => __( '::marker li.'),
+            'section' => 'pcms_custom',
+        ) 
+    ) );
+
+}
+
 /* CUSTOM CSS */
 add_action( 'wp_head', 'pcms_css_output');
 function pcms_css_output(){
@@ -1071,32 +1356,57 @@ function pcms_css_output(){
     $pcms_h_menu_item = get_theme_mod('pcms_h_menu_item', '#FFFFFF');
     $pcms_h_bg_menu_close = get_theme_mod('pcms_h_bg_menu_close', '#FFFFFF');
     $pcms_h_bg_menu_close = hexToRgb($pcms_h_bg_menu_close);
-    $pcms_h_bg_alpha_menu_close = get_theme_mod('pcms_h_bg_alpha_menu_close', '1');
+    $pcms_h_bg_alpha_menu_close = get_theme_mod('pcms_h_bg_alpha_menu_close', '0');
     $pcms_h_bg_menu_open = get_theme_mod('pcms_h_bg_menu_open', '#050A3A');
     $pcms_h_bg_menu_open = hexToRgb($pcms_h_bg_menu_open);
     $pcms_h_bg_alpha_menu_open = get_theme_mod('pcms_h_bg_alpha_menu_open', '1');
     $pcms_h_menu_close = get_theme_mod('pcms_h_menu_close', '#FFFFFF');
     $pcms_h_menu_open = get_theme_mod('pcms_h_menu_open', '#050A3A');
     $pcms_main_text_color = get_theme_mod('pcms_main_text_color', '#8A8A8A');
-	$pcms_main_color = get_theme_mod('pcms_main_color', '#050A3A');
-	echo "<style>
-			 :root{
-                --pcms-h-menu-item : $pcms_h_menu_item;
+    $pcms_main_text_fs = get_theme_mod('pcms_main_text_fs', "1rem");
+    $pcms_main_text_weight = get_theme_mod('pcms_main_text_weight', "400");
+    $pcms_main_text_lh = get_theme_mod('pcms_main_text_lh', "1.2");
+	$pcms_main_bg_color = get_theme_mod('pcms_main_bg_color', '#FFFFFF');
+	$pcms_main_btn_bg_clr = get_theme_mod('pcms_main_btn_bg_clr', '#050A3A');
+	$pcms_main_btn_text_clr = get_theme_mod('pcms_main_btn_text_clr', '#FFFFFF');
+	$pcms_custom_li_marker = get_theme_mod('pcms_custom_li_marker', '#050A3A');
+    
+    $headings = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+    echo "<style>";
+        echo ":root {";
+            foreach ($headings as $heading){
+                echo "--pcms-main-${heading}-color : " . get_theme_mod("pcms_main_${heading}_color", '#050A3A') . ";";
+                echo "--pcms-main-${heading}-weight : " . get_theme_mod("pcms_main_${heading}_weight", '400') . ";";
+                echo "--pcms-main-${heading}-fs : " . get_theme_mod("pcms_main_${heading}_fs", '2rem') . ";";
+            }
+        echo "}";
+    echo "</style>";
+
+    echo "<style>";
+        echo ":root {";
+            echo "--pcms-h-menu-item : $pcms_h_menu_item;
                 --pcms-h-bg-alpha-menu-close : $pcms_h_bg_alpha_menu_close;
                 --pcms-h-bg-menu-close : $pcms_h_bg_menu_close;
                 --pcms-h-bg-alpha-menu-open : $pcms_h_bg_alpha_menu_open;
                 --pcms-h-bg-menu-open : $pcms_h_bg_menu_open;
                 --pcms-h-menu-close : $pcms_h_menu_close;
                 --pcms-h-menu-open : $pcms_h_menu_open;
-			 	--pcms-main-color : $pcms_main_color;
+                --pcms-main-bg-color : $pcms_main_bg_color;
                 --pcms-main-text-color: $pcms_main_text_color;  
+                --pcms-main-text-fs: $pcms_main_text_fs;  
+                --pcms-main-text-lh: $pcms_main_text_lh;  
+                --pcms-main-text-weight: $pcms_main_text_weight;  
+                --pcms-main-btn-bg-clr : $pcms_main_btn_bg_clr;
+                --pcms-main-btn-text-clr : $pcms_main_btn_text_clr;
                 --pmcs-f-bg : $pcms_f_bg;
                 --pmcs-f-text-color : $pcms_f_text_color;
                 --pcms-f-social-link : $pcms_f_social_link;
                 --pcms-f-link-color : $pcms_f_link_color;
-                --pcms-f-link--member-color : $pcms_f_link_member_color;
-			  }
-		</style>";
+                --pcms-f-link-member-color : $pcms_f_link_member_color;
+                --pcms-default-tpl-li-marker : $pcms_custom_li_marker;
+            ";
+        echo "}";
+    echo "</style>";
 }
 
 //HEX to RGBA
