@@ -1,7 +1,8 @@
-<?php get_header();?>
-<div class="bg-primary text-white d-flex flex-column gap-4">
-    <h1 class="fs-1">404 Error.</h1>
-    <div class="message fs-5">
+<?= get_header();?>
+
+<div class="d-flex flex-column gap-4">
+    <h1 class="h1-404">404 Error.</h1>
+    <div class="text-404">
         <p>The page you were looking for couldn't be found.</p>
         <p>Maybe try a search?</p>
     </div>
@@ -19,4 +20,4 @@
     </form>
 </div>
 
-<?php get_footer(); ?>
+<?= get_footer(); ?>

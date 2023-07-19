@@ -70,36 +70,41 @@
                 <div class="footer-icons">
                     <nav>
                         <ul class="socials list-unstyled d-flex justify-content-center justify-content-lg-end gap-4">
-                            <?php
-                                $icons = array('linkedin', 'facebook', 'twitter', 'email', 'phone');
-                                foreach ($icons as $icon) {
-                                    $isEnabled = get_theme_mod("pcms_f_${icon}_enabled", true);
-                                    if ($isEnabled) {
-                                        if($icon == 'facebook' || $icon == 'linkedin' || $icon == 'twitter'){
-                                            $iconUrl = get_theme_mod("pcms_f_${icon}_link", '#');
-                                            echo '<li>';
-                                            echo '<a href="' . esc_url($iconUrl) . '" class="social-footer-link">' . getIcon($icon) . '</a>';
-                                            echo '</li>';
-                                        }
-                                        if($icon == 'phone'){
-                                            $iconUrl = get_theme_mod("pcms_f_${icon}_link", '#');
-                                            $iconUrl = str_replace("0", "+33", $iconUrl);
-                                            $iconUrl = str_replace("http://", "", $iconUrl);
-                                            echo '<li>';
-                                            echo '<a href="tel:'.$iconUrl.'" class="social-footer-link">' . getIcon($icon) . '</a>';
-                                            echo '</li>';
-                                        }
-                                        if($icon == 'email'){
-                                            $iconUrl = get_theme_mod("pcms_f_${icon}_link", '#');
-                                            $subject = get_theme_mod("pcms_f_${icon}_subject", '#');
-                                            $iconUrl = str_replace("http://", "", $iconUrl);
-                                            echo '<li>';
-                                            echo '<a href="mailto:'.$iconUrl.'?subject='.$subject.'" class="social-footer-link">' . getIcon($icon) . '</a>';
-                                            echo '</li>';
-                                        }
-                                    }
-                                }
-                            ?>
+                            <?php $icons = array('linkedin', 'facebook', 'twitter', 'email', 'phone'); ?>
+                            <?php foreach ($icons as $icon) : ?>
+                                <?php  $isEnabled = get_theme_mod("pcms_f_${icon}_enabled", true); ?>
+                                    <?php if ($isEnabled) : ?>
+                                        <?php if ($icon == 'facebook' || $icon == 'linkedin' || $icon == 'twitter') : ?>
+                                            <?php $iconUrl = get_theme_mod("pcms_f_${icon}_link", '#'); ?>
+                                            <li>
+                                                <a href="<?=esc_url($iconUrl);?>" class="social-footer-link"><?=getIcon($icon);?></a>
+                                            </li>
+                                        <?php endif ; ?>
+                                        <?php if ($icon == 'phone') : ?>
+                                            <?php  
+                                                $iconUrl = get_theme_mod("pcms_f_${icon}_link", '#');
+                                                if($iconUrl != '#'){
+                                                    $iconUrl = str_replace(' ', '', $iconUrl);
+                                                    $iconUrl = substr($iconUrl, 1);
+                                                    $iconUrl = '+33' . $iconUrl;
+                                                }
+                                            ?>
+                                            <li>
+                                                <a href="tel:<?=$iconUrl;?>" class="social-footer-link"><?= getIcon($icon); ?></a>
+                                            </li>
+                                        <?php endif ; ?>
+                                        <?php if ($icon == 'email') : ?>
+                                            <?php 
+                                                $iconUrl = get_theme_mod("pcms_f_${icon}_link", '#');
+                                                $subject = get_theme_mod("pcms_f_${icon}_subject", '#');
+                                                $iconUrl = str_replace("http://", "", $iconUrl);
+                                            ?>
+                                            <li>
+                                                <a href="mailto:<?=$iconUrl;?>?subject=<?=$subject?>" class="social-footer-link"><?=getIcon($icon);?></a>
+                                            </li>
+                                        <?php endif ; ?>
+                                    <?php endif ; ?>
+                            <?php endforeach ; ?>
                         </ul>
                     </nav>
                 </div>

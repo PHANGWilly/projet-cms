@@ -1,6 +1,6 @@
 <aside class="d-flex flex-column gap-4">
     <div class="search-form">
-        <h2 class="fs-4">Search</h2>
+        <h2>Search</h2>
         <form role="search" method="get" id="searchform" class="searchform" action="<?=get_site_url();?>">
             <div class="d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between border-bottom border-light">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="recent-posts d-flex flex-column gap-2">
-        <h2 class="fs-4">Recent posts</h2>
+        <h2>Recent posts</h2>
         <ul class="p-0">
             <?php
                 $args = array(
@@ -30,7 +30,7 @@
                     while ($posts->have_posts()) { ?>
                         <?= $posts->the_post(); ?>
                         <li class="row m-0 pb-3">
-                            <a href="<?=get_permalink($post->id);?>" class="m-0 text-decoration-none text-secondary p-0">
+                            <a href="<?=get_permalink($post->id);?>" class="m-0 text-decoration-none main-text p-0">
                                 <div class="row m-0 gap-2">
                                     <div class="col-3 p-0">
                                         <?= get_the_post_thumbnail($post->id,array(80,80)); ?>
@@ -51,14 +51,14 @@
     </div>
 
     <div class="archives d-flex flex-column gap-2">
-        <h2 class="fs-4">Archives</h2>
+        <h2>Archives</h2>
         <ul class="p-0 list-unstyled d-flex flex-column gap-3">
             <?php 
                 $args = array(
                     'type' => 'monthly', 
                     'limit' => '', 
                     'format' => 'custom', 
-                    'before' => "<li class='archive-li'>", 
+                    'before' => "<li class='archive-li main-text'>", 
                     'after' => '</li>',
                     'show_post_count' => false,
                     'echo' => false
@@ -73,11 +73,11 @@
     </div>
 
     <div class="categories d-flex flex-column gap-2">
-        <h2 class="fs-4">Categories</h2>
+        <h2>Categories</h2>
         <ul class="p-0 list-unstyled d-flex flex-column gap-3">
             <?php foreach (get_categories() as $category) :?>
                 <li class="category-li">
-                    <a href="<?=get_category_link($category->term_id)?>" class="text-decoration-none text-secondary">
+                    <a href="<?=get_category_link($category->term_id)?>" class="text-decoration-none main-text">
                         <?= $category->name;?>
                     </a>
                 </li>
@@ -89,7 +89,7 @@
         <h2 class="fs-4">Tags</h2>
             <div class="tags-list d-flex flex-wrap gap-2">
                 <?php foreach (get_tags() as $tag) :?>
-                    <a href="<?=get_category_link($tag->term_id)?>" class="tag text-decoration-none text-secondary bg-light px-2 py-2">
+                    <a href="<?=get_category_link($tag->term_id)?>" class="tag text-decoration-none main-text bg-light px-2 py-2">
                         <?= $tag->name;?>
                     </a>
                 <?php endforeach; ?>

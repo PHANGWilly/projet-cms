@@ -11,13 +11,13 @@
             <section class="infos d-flex gap-3">
                 <div class="categories d-flex gap-2">
                     <?php foreach(get_the_category() as $category) :?>
-                        <a href="<?=get_category_link($category->term_id)?>" class="text-primary text-decoration-none">
+                        <a href="<?=get_category_link($category->term_id)?>" class="main-color text-decoration-none">
                             <?= $category->cat_name;?>
                         </a>
                     <?php endforeach;?>
                 </div>
                 <span>-</span>
-                <div class="date">
+                <div class="date main-color">
                     <?= get_the_date();?>
                 </div>
             </section>
@@ -26,7 +26,7 @@
             </section>
             <section class="tags d-flex gap-2 mb-4">
                 <?php foreach (get_tags() as $tag) :?>
-                    <a href="<?=get_category_link($tag->term_id)?>" class="tag text-decoration-none text-secondary bg-light px-2 py-2">
+                    <a href="<?=get_category_link($tag->term_id)?>" class="tag text-decoration-none main-text bg-light px-2 py-2">
                         <?= $tag->name;?>
                     </a>
                 <?php endforeach; ?>

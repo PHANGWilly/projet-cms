@@ -72,6 +72,22 @@ function pcms_general( $wp_customize ) {
 	  	'label' => __( 'BG Color - Body.'),
 	  	'section' => 'pcms_general',
 	) ) );
+
+    //main color
+    $wp_customize->add_setting('pcms_main_color', array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#050A3A',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+            $wp_customize, 
+        'pcms_main_color', array(
+            'label' => __( 'Main Color.'),
+            'section' => 'pcms_general',
+    ) ) );
     
     //text color
     $wp_customize->add_setting('pcms_main_text_color', array(
@@ -164,7 +180,7 @@ function pcms_general( $wp_customize ) {
             'section' => 'pcms_general', 
             'label' => "Heading Weight : ${heading}",
             'input_attrs' => array(
-                'min' => 0,
+                'min' => 100,
                 'max' => 900,
                 'step' => 50,
             ),
@@ -574,7 +590,7 @@ function pcms_footer( $wp_customize ) {
         $wp_customize->add_setting("pcms_f_${icon}_link", array(
             'type' => 'theme_mod',
             'transport' => 'refresh',
-            'sanitize_callback' => 'esc_url_raw',
+            'sanitize_callback' => 'sanitize_text_field',
         ));
 
         $wp_customize->add_control(
@@ -914,6 +930,24 @@ function pcms_about_us ( $wp_customize ) {
             'type' => 'text',
         )
     );
+
+    //icon color
+    $wp_customize->add_setting('pcms_aus_icon_clr', array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#050A3A',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+        $wp_customize, 
+        'pcms_aus_icon_clr', 
+        array(
+            'label' => __( 'Icon Color'),
+            'section' => 'pcms_about_us',
+        ) 
+    ) );
 
     $s3Infos = array('s3-info-1', 's3-info-2', 's3-info-3', 's3-info-4');
     $icons = array ('email', 'phone', 'linkedin');
@@ -1345,9 +1379,76 @@ function pcms_custom ( $wp_customize ) {
 
 }
 
+/* PANEL - 404 */
+add_action('customize_register', 'pcms_404');
+function pcms_404 ( $wp_customize ) {
+    $wp_customize->add_section( 'pcms_404', array(
+        'title' =>  'Projet CMS - 404',
+        'description' => 'Customisation : 404',
+        'priority' => 10,
+        'section' => 'pcms_404',
+	) );
+
+    $wp_customize->add_setting('pcms_404_bg_body', array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#050A3A',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+        $wp_customize, 
+        'pcms_404_bg_body', 
+        array(
+            'label' => __( 'BG - Body.'),
+            'section' => 'pcms_404',
+        ) 
+    ) );
+
+    $wp_customize->add_setting('pcms_404_h1_clr', array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#FFF',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+        $wp_customize, 
+        'pcms_404_h1_clr', 
+        array(
+            'label' => __( 'H1 - Color.'),
+            'section' => 'pcms_404',
+        ) 
+    ) );
+
+    $wp_customize->add_setting('pcms_404_text_clr', array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => '#050A3A',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control( 
+        new WP_Customize_Color_Control( 
+        $wp_customize, 
+        'pcms_404_text_clr', 
+        array(
+            'label' => __( 'Couleur du text.'),
+            'section' => 'pcms_404',
+        ) 
+    ) );
+}
+
+
 /* CUSTOM CSS */
 add_action( 'wp_head', 'pcms_css_output');
 function pcms_css_output(){
+    $pcms_main_color = get_theme_mod("pcms_main_color", "#050A3A");
+    $pcms_404_bg_body = get_theme_mod("pcms_404_bg_body", "#050A3A");
+    $pcms_404_h1_clr = get_theme_mod("pcms_404_h1_clr", "#FFFFFF");
+    $pcms_404_text_clr = get_theme_mod("pcms_404_text_clr", "#FFFFFF");
     $pcms_f_bg = get_theme_mod('pcms_f_bg', '#050A3A');
     $pcms_f_text_color = get_theme_mod('pcms_f_bg_text_color', '#FFFFFF');
     $pcms_f_social_link = get_theme_mod('pcms_f_social_link', '#FFFFFF');
@@ -1370,6 +1471,7 @@ function pcms_css_output(){
 	$pcms_main_btn_bg_clr = get_theme_mod('pcms_main_btn_bg_clr', '#050A3A');
 	$pcms_main_btn_text_clr = get_theme_mod('pcms_main_btn_text_clr', '#FFFFFF');
 	$pcms_custom_li_marker = get_theme_mod('pcms_custom_li_marker', '#050A3A');
+    $pcms_aus_icon_clr = get_theme_mod("pcms_aus_icon_clr", "#050A3A");
     
     $headings = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
     echo "<style>";
@@ -1392,6 +1494,7 @@ function pcms_css_output(){
                 --pcms-h-menu-close : $pcms_h_menu_close;
                 --pcms-h-menu-open : $pcms_h_menu_open;
                 --pcms-main-bg-color : $pcms_main_bg_color;
+                --pcms-main-color : $pcms_main_color;
                 --pcms-main-text-color: $pcms_main_text_color;  
                 --pcms-main-text-fs: $pcms_main_text_fs;  
                 --pcms-main-text-lh: $pcms_main_text_lh;  
@@ -1404,6 +1507,10 @@ function pcms_css_output(){
                 --pcms-f-link-color : $pcms_f_link_color;
                 --pcms-f-link-member-color : $pcms_f_link_member_color;
                 --pcms-default-tpl-li-marker : $pcms_custom_li_marker;
+                --pcms-aus-icon-clr : $pcms_aus_icon_clr;
+                --pcms-404-bg-body : $pcms_404_bg_body;
+                --pcms-404-h1-clr : $pcms_404_h1_clr;
+                --pcms-404-text-clr : $pcms_404_text_clr;
             ";
         echo "}";
     echo "</style>";
@@ -1431,27 +1538,27 @@ function hexToRgb($hex) {
 //ICON footer
 function getIcon($icon){
 
-    $facebook = '<svg width="12" height="18" class="social-footer-icon">
+    $facebook = '<svg width="12" height="18" class="social-icon">
     <path d="M3.4008 18L3.375 10.125H0V6.75H3.375V4.5C3.375 1.4634 5.25545 0 7.9643 0C9.26187 0 10.3771 0.0966038 10.7021 0.139781V3.3132L8.82333 3.31406C7.35011 3.31406 7.06485 4.01411 7.06485 5.04139V6.75H11.25L10.125 10.125H7.06484V18H3.4008Z"/>
     </svg>
     ';
 
-    $twitter = '<svg width="18" height="15" viewBox="0 0 18 15" class="social-footer-icon">
+    $twitter = '<svg width="18" height="15" viewBox="0 0 18 15" class="social-icon">
     <path d="M18 1.6875C17.325 2.025 16.65 2.1375 15.8625 2.25C16.65 1.8 17.2125 1.125 17.4375 0.225C16.7625 0.675 15.975 0.9 15.075 1.125C14.4 0.45 13.3875 0 12.375 0C10.4625 0 8.775 1.6875 8.775 3.7125C8.775 4.05 8.775 4.275 8.8875 4.5C5.85 4.3875 3.0375 2.925 1.2375 0.675C0.9 1.2375 0.7875 1.8 0.7875 2.5875C0.7875 3.825 1.4625 4.95 2.475 5.625C1.9125 5.625 1.35 5.4 0.7875 5.175C0.7875 6.975 2.025 8.4375 3.7125 8.775C3.375 8.8875 3.0375 8.8875 2.7 8.8875C2.475 8.8875 2.25 8.8875 2.025 8.775C2.475 10.2375 3.825 11.3625 5.5125 11.3625C4.275 12.375 2.7 12.9375 0.9 12.9375C0.5625 12.9375 0.3375 12.9375 0 12.9375C1.6875 13.95 3.6 14.625 5.625 14.625C12.375 14.625 16.0875 9 16.0875 4.1625C16.0875 4.05 16.0875 3.825 16.0875 3.7125C16.875 3.15 17.55 2.475 18 1.6875Z"/>
     </svg>
     ';
 
-    $email = '<svg width="18" height="15" viewBox="0 0 18 15" class="social-footer-icon">
+    $email = '<svg width="18" height="15" viewBox="0 0 18 15" class="social-icon">
     <path d="M18 1.875C18 0.84375 17.19 0 16.2 0H1.8C0.81 0 0 0.84375 0 1.875V13.125C0 14.1563 0.81 15 1.8 15H16.2C17.19 15 18 14.1563 18 13.125V1.875ZM16.2 1.875L9 6.5625L1.8 1.875H16.2ZM16.2 13.125H1.8V3.75L9 8.4375L16.2 3.75V13.125Z"/>
     </svg>       
     ';
 
-    $linkedin = '<svg width="19" height="18" viewBox="0 0 19 18" class="social-footer-icon">
+    $linkedin = '<svg width="19" height="18" viewBox="0 0 19 18" class="social-icon">
     <path d="M17.9698 0H1.64687C1.19966 0 0.864258 0.335404 0.864258 0.782609V17.2174C0.864258 17.5528 1.19966 17.8882 1.64687 17.8882H18.0816C18.5289 17.8882 18.8643 17.5528 18.8643 17.1056V0.782609C18.7525 0.335404 18.4171 0 17.9698 0ZM3.54749 15.205V6.70807H6.23072V15.205H3.54749ZM4.8891 5.59006C3.99469 5.59006 3.32389 4.80745 3.32389 4.02484C3.32389 3.13043 3.99469 2.45963 4.8891 2.45963C5.78351 2.45963 6.45432 3.13043 6.45432 4.02484C6.34252 4.80745 5.67171 5.59006 4.8891 5.59006ZM16.0692 15.205H13.386V11.0683C13.386 10.0621 13.386 8.8323 12.0444 8.8323C10.7028 8.8323 10.4792 9.95031 10.4792 11.0683V15.3168H7.79593V6.70807H10.3674V7.82609C10.7028 7.15528 11.5972 6.48447 12.827 6.48447C15.5102 6.48447 15.9574 8.27329 15.9574 10.5093V15.205H16.0692Z"/>
     </svg>
     ';
 
-    $phone = '<svg width="18" height="18" viewBox="0 0 18 18" class="social-footer-icon">
+    $phone = '<svg width="18" height="18" viewBox="0 0 18 18" class="social-icon">
     <path d="M17.1609 2.84417L14.8345 0.519903C14.6704 0.355071 14.4753 0.224288 14.2605 0.135067C14.0457 0.0458453 13.8154 -5.57467e-05 13.5828 5.08096e-08C13.1088 5.08096e-08 12.6632 0.18568 12.3289 0.519903L9.82558 3.0233C9.66075 3.18741 9.52997 3.38247 9.44075 3.59728C9.35153 3.81208 9.30563 4.0424 9.30569 4.275C9.30569 4.74903 9.49136 5.19466 9.82558 5.52888L11.6561 7.35947C11.2276 8.30394 10.6319 9.16315 9.89767 9.89563C9.16527 10.6317 8.30615 11.2296 7.36154 11.6607L5.53099 9.8301C5.36688 9.66527 5.17182 9.53448 4.95702 9.44526C4.74221 9.35604 4.5119 9.31014 4.27931 9.31019C3.80528 9.31019 3.35966 9.49587 3.02544 9.8301L0.519896 12.3313C0.354864 12.4957 0.223971 12.6911 0.134747 12.9063C0.0455227 13.1215 -0.000270693 13.3522 1.2037e-06 13.5852C1.2037e-06 14.0592 0.185678 14.5049 0.519896 14.8391L2.84195 17.1612C3.37495 17.6964 4.1111 18 4.86692 18C5.02638 18 5.17929 17.9869 5.33002 17.9607C8.27463 17.4757 11.1952 15.9095 13.5522 13.5546C15.907 11.2019 17.4711 8.2835 17.9626 5.3301C18.1111 4.42791 17.8119 3.49951 17.1609 2.84417Z"/>
     </svg>
 

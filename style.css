@@ -36,6 +36,11 @@ main{
     display: block;
 }
 
+#site-header .menu-item > a,
+#site-header #logo-open.d-block,
+#site-header .menu-item > a{
+    padding-bottom: .5rem;
+}
 #site-header #logo-open.d-block:focus-visible,
 #site-header #logo-open.d-block:focus,
 #site-header #logo-open.d-block:hover,
@@ -84,6 +89,7 @@ main{
     display: flex;
     align-items: center;
     gap: 1rem;
+    padding-bottom: .5rem;
 }
 
 .archives .archive-li::before{
@@ -98,13 +104,25 @@ main{
 
 .archives .archive-li a{
     text-decoration: none;
-    color : var(--bs-secondary);
+    color : var(--main-text);
+    padding-bottom: .5rem;
+}
+
+.archives .archive-li a:focus-within,
+.archives .archive-li a:focus,
+.archives .archive-li a:hover{
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+    background-position: bottom;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
 }
 
 .categories .category-li{
     display: flex;
     align-items: center;
     gap: 1rem;
+    padding-bottom: .5rem;
 }
 
 .categories .category-li::before{
@@ -209,10 +227,10 @@ main{
 
 #footer-site .socials .social-footer-link{
     color : var(--pcms-f-social-link);
-    padding: .5rem;
+    padding: 1rem;
 }
 
-#footer-site .socials .social-footer-link .social-footer-icon{
+#footer-site .socials .social-footer-link .social-icon{
     fill : var(--pcms-f-social-link);
 }
 
@@ -222,6 +240,11 @@ main{
 
 #footer-site .menu-item-footer-link{
     color : var(--pcms-f-link-color);
+}
+
+#footer-site .menu-item-footer-link,
+#footer-site .footer-member-link{
+    padding-bottom: .5rem;
 }
 
 #footer-site .menu-item-footer-link:hover,
@@ -264,6 +287,7 @@ main{
 }
 
 [aria-current="page"] {
+    padding-bottom: .5rem;
     background: rgb(255,208,168);
     background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
     background-position: bottom;
@@ -313,6 +337,7 @@ li::marker{
 
 a.main-text{
     text-decoration: none;
+    padding-bottom: .5rem;
 }
 
 a.main-text:hover,
@@ -333,4 +358,50 @@ a.main-text:focus-within{
 .btn:hover{
     background-color: var(--pcms-main-btn-bg-clr);
     color : var(--pcms-main-btn-text-clr);
+}
+
+.aus-social-link{
+    padding-bottom: .5rem;
+}
+
+.aus-social-link:focus,
+.aus-social-link:hover,
+.aus-social-link:focus-within{
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+    background-position: bottom;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+}
+
+.aus-social-link .social-icon{
+    fill : var(--pcms-aus-icon-clr);
+}
+
+body.error404{
+    background-color : var(--pcms-404-bg-body);
+}
+
+h1.h1-404{
+    color : var(--pcms-404-h1-clr);
+}
+
+.text-404, .text-404 p{
+    color : var(--pcms-404-text-clr);
+}
+
+.svg-main-color{
+    fill : var(--pcms-main-color);
+}
+
+.main-color{
+    color : var(--pcms-main-color);
+}
+
+.ratio-1-1{
+    aspect-ratio: 1/1;
+}
+
+.ratio-16-9{
+    aspect-ratio: 16/9;
 }
