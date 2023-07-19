@@ -3,7 +3,11 @@
 /*
  * Template Name: Partners Template
  */
-get_header();
 ?>
+<?php get_header(); ?>
+
+<h1><?= get_the_title();?>.</h1>
+
+<?= get_template_part('template-parts/pcms_services_section-1'); ?>
 
 <?php get_footer();

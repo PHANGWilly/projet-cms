@@ -17,6 +17,8 @@ menuItemsFooter.forEach(function(menuItem) {
 /* 
  *GESTION DE L'AFFICHAGE DU MENU
 */
+const customMenuLinkLogo = document.querySelector('.custom-logo-link');
+const logoOpen = document.getElementById("logo-open");
 const navigationButton = document.getElementById("navigation-button");
 const menuContainer = document.getElementById("menu-container");
 const siteHeader = document.getElementById("site-header");
@@ -47,9 +49,17 @@ function toggleMenu() {
     if (isMenuOpen) {
         menuContainer.classList.remove("d-none");
         menuContainer.classList.add("d-block");
+        logoOpen.classList.remove("d-none");
+        logoOpen.classList.add("d-block");
+        customMenuLinkLogo.classList.remove("d-block");
+        customMenuLinkLogo.classList.add("d-none");
     } else {
         menuContainer.classList.remove("d-block");
         menuContainer.classList.add("d-none");
+        logoOpen.classList.remove("d-block");
+        logoOpen.classList.add("d-none");
+        customMenuLinkLogo.classList.remove("d-none");
+        customMenuLinkLogo.classList.add("d-block");
     }
 
     // Basculer l'affichage des boutons SVG

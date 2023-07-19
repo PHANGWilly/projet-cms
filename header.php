@@ -19,7 +19,22 @@
         <div class="container px-4 px-lg-0 py-4 h-100">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="logo">
-                    <?= get_custom_logo()?>
+                    <?= get_custom_logo();?>
+                    <?php 
+                        if(!get_theme_mod( "pcms_h_logo_open", '')){
+                            ?>
+                                <a href="<?=get_site_url();?>" id="logo-open" class="d-none">
+                                    <img src="<?=get_site_url();?>/wp-content/themes/projet-cms/img/logo-header-open.png" width="140" height="42" alt="">
+                                </a>
+                            <?php
+                        }else {
+                            ?>
+                            <a href="<?=get_site_url();?>" id="logo-open" class="d-none">
+                                <img src="<?=get_theme_mod( "pcms_h_logo_open", '')?>" width="140" height="42" alt="">
+                            </a>
+                            <?php
+                        }
+                    ?>
                 </div>
                 <div class="menu-navigation">
                     <button id="navigation-button" class="border-0 bg-transparent">

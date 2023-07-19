@@ -1,7 +1,7 @@
 <aside class="d-flex flex-column gap-4">
     <div class="search-form">
         <h2 class="fs-4">Search</h2>
-        <form role="search" method="get" id="searchform" class="searchform" action="http://localhost:8000/">
+        <form role="search" method="get" id="searchform" class="searchform" action="<?=get_site_url();?>">
             <div class="d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between border-bottom border-light">
                     <input type="text" value="" name="s" id="s" placeholder="Type to search" required class="border-0 w-100">
@@ -27,8 +27,7 @@
                 $posts = new WP_Query($args);
 
                 if ($posts->have_posts()) {
-                    while ($posts->have_posts()) {
-                        ?>
+                    while ($posts->have_posts()) { ?>
                         <?= $posts->the_post(); ?>
                         <li class="row m-0 pb-3">
                             <a href="<?=get_permalink($post->id);?>" class="m-0 text-decoration-none text-secondary p-0">

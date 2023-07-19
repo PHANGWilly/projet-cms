@@ -35,6 +35,9 @@ main{
     display: block;
 }
 
+#site-header #logo-open.d-block:focus-visible,
+#site-header #logo-open.d-block:focus,
+#site-header #logo-open.d-block:hover,
 #site-header .custom-logo-link:focus-visible,
 #site-header .custom-logo-link:focus,
 #site-header .custom-logo-link:hover,
@@ -146,6 +149,51 @@ main{
     font-weight: 700;
 }
 
+.aus-social-links{
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+    width: 100%;
+}
+
+.aus-social-links .aus-social-link{
+    text-decoration: none;
+}
+
+#services-s1 .overlay::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.3;
+    transition: all .2s ease-in-out;
+}
+
+#services-s1 .overlay:hover::before{
+    opacity: 0.6;
+}
+
+#services-s1 .overlay:hover h4.special-underline{
+    background: rgb(255,208,168);
+    background: linear-gradient(90deg, rgba(255,208,168,1) 0%, rgba(255,79,192,1) 100%);
+    background-position: bottom;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+}
+
+#partners-s1 .partner-link .partner-logo{
+    opacity: 0.4;
+    transition : all .2s ease-in-out;
+}
+#partners-s1 .partner-link:focus-within .partner-logo,
+#partners-s1 .partner-link:focus .partner-logo,
+#partners-s1 .partner-link:hover .partner-logo{
+    opacity: 1;
+}
+
 #not-found-input-text:valid{
     background-color: transparent;
 }
@@ -199,4 +247,13 @@ main{
 #footer-site .footer-member-link{
     text-decoration: none;
     color : var(--pcms-f-link--member-color);
+}
+
+.main-text{
+    color : var(--pcms-main-text-color);
+}
+
+#blogs .link-to-post .attachment-post-thumbnail.size-post-thumbnail.wp-post-image{
+    width: 100%;
+    height: 100%;
 }

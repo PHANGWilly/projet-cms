@@ -47,7 +47,7 @@ add_action('wp_enqueue_scripts', 'esgi_register_assets_js');
 /*----------------RÉGLAGES DU THÈME----------------*/
 /**************************************************/
 
-/* SECTION PARENT*/
+/* SECTION */
 add_action( 'customize_register', 'pcms_general' );
 function pcms_general( $wp_customize ) {
 	// Ajouter une section dans customize.php
@@ -76,7 +76,7 @@ function pcms_general( $wp_customize ) {
     $wp_customize->add_setting('pcms_main_text_color', array(
 		'type' => 'theme_mod',
 		'transport' => 'refresh',
-		'default' => '#FFFFFF',
+		'default' => '#8A8A8A',
   		'sanitize_callback' => 'sanitize_hex_color',
 	));
 
@@ -87,11 +87,10 @@ function pcms_general( $wp_customize ) {
 	  	'label' => __( 'Couleur principale des textes du thème.'),
 	  	'section' => 'pcms_general',
 	) ) );
-
-
+    
 }
 
-/* SECTION ENFANT */
+/* SECTION */
 /*  HEADER */
 add_action( 'customize_register', 'pcms_header' );
 function pcms_header( $wp_customize ) {
@@ -99,7 +98,7 @@ function pcms_header( $wp_customize ) {
 	$wp_customize->add_section( 'pcms_header', array(
         'title' =>  'Projet CMS - HEADER',
         'description' => 'Personnalisation du haut de page',
-        'priority' => 1,
+        'priority' => 2,
         'section' => 'pcms_header',
 	) );
 
@@ -122,7 +121,7 @@ function pcms_header( $wp_customize ) {
     //bg header alpha when menu close
     $wp_customize->add_setting('pcms_h_bg_alpha_menu_close', array(
         'type' => 'theme_mod',
-        'default' => 1,
+        'default' => 3,
         'sanitize_callback' => 'sanitize_text_field', 
         'sanitize_js_callback' => 'sanitize_text_field',
     ));
@@ -189,6 +188,23 @@ function pcms_header( $wp_customize ) {
 	  	'section' => 'pcms_header',
 	) ) );
 
+    //image 
+    $wp_customize->add_setting("pcms_h_logo_open", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Image_Control( 
+        $wp_customize, 
+        'pcms_h_logo_open', 
+        array(
+            'label'    => 'Logo menu ouvert',
+            'section'  => 'pcms_header',
+            ) 
+        ) 
+    );
+
     //clr icon - menu closed
     $wp_customize->add_setting('pcms_h_menu_close', array(
         'type' => 'theme_mod',
@@ -222,7 +238,7 @@ function pcms_header( $wp_customize ) {
     ) ) );
 }
 
-/* SECTION ENFANT */
+/* SECTION  */
 /*  FOOTER */
 add_action( 'customize_register', 'pcms_footer' );
 function pcms_footer( $wp_customize ) {
@@ -230,7 +246,7 @@ function pcms_footer( $wp_customize ) {
 	$wp_customize->add_section( 'pcms_footer', array(
         'title' =>  'Projet CMS - FOOTER',
         'description' => 'Personnalisation du pied de page',
-        'priority' => 2,
+        'priority' => 4,
         'section' => 'pcms_footer',
 	) );
 
@@ -297,6 +313,23 @@ function pcms_footer( $wp_customize ) {
         'label' => __( 'Couleur des icons footer.'),
         'section' => 'pcms_footer',
     ) ) );
+
+    //image 
+    $wp_customize->add_setting("pcms_f_logo", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Image_Control( 
+        $wp_customize, 
+        'pcms_f_logo', 
+        array(
+            'label'    => 'Logo dans le pied de page',
+            'section'  => 'pcms_footer',
+            ) 
+        ) 
+    );
 
     //membres footer
     $membres = array('membre-1', 'membre-2');
@@ -443,52 +476,120 @@ function pcms_footer( $wp_customize ) {
     }
 }
 
+/* SECTION */
+/* INDEX */
+add_action( 'customize_register', 'pcms_index' );
+function pcms_index( $wp_customize ) {
+	$wp_customize->add_section( 'pcms_index', array(
+        'title' =>  'Projet CMS - INDEX',
+        'description' => 'Personnalisez la page d\'accueil',
+        'priority' => 5,
+	) );
 
-add_action( 'wp_head', 'pcms_css_output');
-function pcms_css_output(){
-    $pcms_f_bg = get_theme_mod('pcms_f_bg', '#050A3A');
-    $pcms_f_text_color = get_theme_mod('pcms_f_bg_text_color', '#FFFFFF');
-    $pcms_f_social_link = get_theme_mod('pcms_f_social_link', '#FFFFFF');
-    $pcms_f_link_color = get_theme_mod('pcms_f_link_color', '#FFFFFF');
-    $pcms_f_link_member_color = get_theme_mod('pcms_f_link_member_color', '#FFFFFF');
-    $pcms_h_menu_item = get_theme_mod('pcms_h_menu_item', '#FFFFFF');
-    $pcms_h_bg_menu_close = get_theme_mod('pcms_h_bg_menu_close', '#FFFFFF');
-    $pcms_h_bg_menu_close = hexToRgb($pcms_h_bg_menu_close);
-    $pcms_h_bg_alpha_menu_close = get_theme_mod('pcms_h_bg_alpha_menu_close', '1');
-    $pcms_h_bg_menu_open = get_theme_mod('pcms_h_bg_menu_open', '#050A3A');
-    $pcms_h_bg_menu_open = hexToRgb($pcms_h_bg_menu_open);
-    $pcms_h_bg_alpha_menu_open = get_theme_mod('pcms_h_bg_alpha_menu_open', '1');
-    $pcms_h_menu_close = get_theme_mod('pcms_h_menu_close', '#FFFFFF');
-    $pcms_h_menu_open = get_theme_mod('pcms_h_menu_open', '#050A3A');
-    $pcms_main_text_color = get_theme_mod('pcms_main_text_color', '#FFFFFF');
-	$pcms_main_color = get_theme_mod('pcms_main_color', '#050A3A');
-	echo "<style>
-			 :root{
-                --pcms-h-menu-item : $pcms_h_menu_item;
-                --pcms-h-bg-alpha-menu-close : $pcms_h_bg_alpha_menu_close;
-                --pcms-h-bg-menu-close : $pcms_h_bg_menu_close;
-                --pcms-h-bg-alpha-menu-open : $pcms_h_bg_alpha_menu_open;
-                --pcms-h-bg-menu-open : $pcms_h_bg_menu_open;
-                --pcms-h-menu-close : $pcms_h_menu_close;
-                --pcms-h-menu-open : $pcms_h_menu_open;
-			 	--pcms-main-color : $pcms_main_color;
-                --pcms-main-text-color: $pcms_main_text_color;  
-                --pmcs-f-bg : $pcms_f_bg;
-                --pmcs-f-text-color : $pcms_f_text_color;
-                --pcms-f-social-link : $pcms_f_social_link;
-                --pcms-f-link-color : $pcms_f_link_color;
-                --pcms-f-link--member-color : $pcms_f_link_member_color;
-			  }
-		</style>";
+    //affichage ou non sur la page d'accueil des sections
+    $parts = array('AboutUs', 'Services', 'Partners');
+    $sections_aus = array ('section-1', 'section-2', 'section-3');
+    $sections_services = array ('section-1', 'section-2');
+    $sections_partners = array ('section-1');
+    foreach ($parts as $part) {
+        $wp_customize->add_setting("pcms_index_title_${part}", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control(
+            "pcms_index_title_${part}",
+            array(
+                'label' => "Titre : ${part}",
+                'section' => 'pcms_index',
+                'type' => 'text',
+            )
+        );
+
+        $wp_customize->add_setting("pcms_index_${part}_enabled", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'default' => true,
+        ));
+
+        $wp_customize->add_control(
+            "pcms_index_${part}_enabled",
+            array(
+                'label' => "Afficher : ${part}",
+                'section' => 'pcms_index',
+                'type' => 'checkbox',
+            )
+        );
+
+        if ($part == 'AboutUs') {
+            foreach ($sections_aus as $section_aus) {
+                $wp_customize->add_setting("pcms_index_${part}_${section_aus}_enabled", array(
+                    'type' => 'theme_mod',
+                    'transport' => 'refresh',
+                    'default' => true,
+                ));
+        
+                $wp_customize->add_control(
+                    "pcms_index_${part}_${section_aus}_enabled",
+                    array(
+                        'label' => "Afficher : ${part} : ${section_aus}",
+                        'section' => 'pcms_index',
+                        'type' => 'checkbox',
+                    )
+                );
+            }
+        }
+
+        if ($part == 'Services') {
+            foreach ($sections_services as $section_services) {
+                $wp_customize->add_setting("pcms_index_${part}_${section_services}_enabled", array(
+                    'type' => 'theme_mod',
+                    'transport' => 'refresh',
+                    'default' => true,
+                ));
+        
+                $wp_customize->add_control(
+                    "pcms_index_${part}_${section_services}_enabled",
+                    array(
+                        'label' => "Afficher : ${part} : ${section_services}",
+                        'section' => 'pcms_index',
+                        'type' => 'checkbox',
+                    )
+                );
+            }
+        }
+
+        if($part == 'Partners') {
+            foreach ($sections_partners as $section_partners) {
+                $wp_customize->add_setting("pcms_index_${part}_${section_partners}_enabled", array(
+                    'type' => 'theme_mod',
+                    'transport' => 'refresh',
+                    'default' => true,
+                ));
+        
+                $wp_customize->add_control(
+                    "pcms_index_${part}_${section_partners}_enabled",
+                    array(
+                        'label' => "Afficher : ${part} : ${section_partners}",
+                        'section' => 'pcms_index',
+                        'type' => 'checkbox',
+                    )
+                );
+            }
+        }
+    }
 }
 
+/* SECTION */
+/*  ABOUT US */
 add_action('customize_register', 'pcms_about_us');
 function pcms_about_us ( $wp_customize ) {
     // Ajouter une section dans customize.php
 	$wp_customize->add_section( 'pcms_about_us', array(
         'title' =>  'Projet CMS - About Us',
-        'description' => 'Personnalisation : A propos',
-        'priority' => 4,
+        'description' => 'Customisation : About Us',
+        'priority' => 6,
         'section' => 'pcms_about_us',
 	) );
 
@@ -525,6 +626,38 @@ function pcms_about_us ( $wp_customize ) {
             ) 
         ) 
     );
+
+    //titre
+    $wp_customize->add_setting("pcms_aus_s1_title", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_aus_s1_title",
+        array(
+            'label' => "Titre de la section 1",
+            'section' => 'pcms_about_us',
+            'type' => 'text',
+        )
+    );
+
+    //description du titre
+    $wp_customize->add_setting("pcms_aus_s1_title_description", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_aus_s1_title_description",
+        array(
+            'label' => "Description de la section 1",
+            'section' => 'pcms_about_us',
+            'type' => 'textarea',
+        )
+    );
     
 
     /** ABOUT US - SECTION 2 **/
@@ -541,39 +674,6 @@ function pcms_about_us ( $wp_customize ) {
             'label' => "Afficher la section 2",
             'section' => 'pcms_about_us',
             'type' => 'checkbox',
-        )
-    );
-
-    //titre
-    $wp_customize->add_setting("pcms_aus_s2_title", array(
-        'type' => 'theme_mod',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-
-    $wp_customize->add_control(
-        "pcms_aus_s2_title",
-        array(
-            'label' => "Titre de la section 2",
-            'section' => 'pcms_about_us',
-            'type' => 'text',
-        )
-    );
-
-    //description du titre
-    $wp_customize->add_setting("pcms_aus_s2_title_description", array(
-        'type' => 'theme_mod',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_textarea_field',
-        'default' => 'Specializing in the creation of exceptional events for private and corporate clients, we design, plan and manage every project from conception to execution.',
-    ));
-
-    $wp_customize->add_control(
-        "pcms_aus_s2_title_description",
-        array(
-            'label' => "Description de la section 2",
-            'section' => 'pcms_about_us',
-            'type' => 'textarea',
         )
     );
 
@@ -613,7 +713,7 @@ function pcms_about_us ( $wp_customize ) {
         );
 
         //titre de l'info
-        $wp_customize->add_setting("pcms_aus_s2_${info}title", array(
+        $wp_customize->add_setting("pcms_aus_s2_${info}_title", array(
             'type' => 'theme_mod',
             'transport' => 'refresh',
             'sanitize_callback' => 'sanitize_text_field',
@@ -621,7 +721,7 @@ function pcms_about_us ( $wp_customize ) {
         ));
 
         $wp_customize->add_control(
-            "pcms_aus_s2_${info}title",
+            "pcms_aus_s2_${info}_title",
             array(
                 'label' => "Titre de l'info : ${info}",
                 'section' => 'pcms_about_us',
@@ -760,6 +860,243 @@ function pcms_about_us ( $wp_customize ) {
         }
     }
 
+}
+
+/* SECTION */
+/*  SERVICES */
+add_action('customize_register', 'pcms_services');
+function pcms_services ( $wp_customize ) {
+    $wp_customize->add_section( 'pcms_services', array(
+        'title' =>  'Projet CMS - Services',
+        'description' => 'Customisation : Services',
+        'priority' => 7,
+        'section' => 'pcms_services',
+	) );
+
+    /** SERVICES - SECTION 1 **/
+    // demande d'affichage - default : true
+    $wp_customize->add_setting("pcms_services_s1_enabled", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => true,
+    ));
+
+    $wp_customize->add_control(
+        "pcms_services_s1_enabled",
+        array(
+            'label' => "Afficher la section 1",
+            'section' => 'pcms_services',
+            'type' => 'checkbox',
+        )
+    );
+
+    $infos = array('info-1', 'info-2', 'info-3', 'info-4');
+    foreach ($infos as $info) {
+
+        //titre
+        $wp_customize->add_setting("pcms_services_s1_title_${info}", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control(
+            "pcms_services_s1_title_${info}",
+            array(
+                'label' => "Titre : ${info}",
+                'section' => 'pcms_services',
+                'type' => 'text',
+            )
+        );
+
+        //image 
+        $wp_customize->add_setting("pcms_services_s1_image_${info}", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control( new WP_Customize_Image_Control( 
+            $wp_customize, 
+            "pcms_services_s1_image_${info}", 
+            array(
+                'label'    => "Image de : ${info}",
+                'section'  => 'pcms_services',
+                ) 
+            ) 
+        );
+    }
+    /** SERVICES - SECTION 2 **/
+    // demande d'affichage - default : true
+    $wp_customize->add_setting("pcms_services_s2_enabled", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => true,
+    ));
+
+    $wp_customize->add_control(
+        "pcms_services_s2_enabled",
+        array(
+            'label' => "Afficher la section 2",
+            'section' => 'pcms_services',
+            'type' => 'checkbox',
+        )
+    );
+
+    //titre
+    $wp_customize->add_setting("pcms_services_s2_title", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_services_s2_title",
+        array(
+            'label' => "Titre de la section 2",
+            'section' => 'pcms_services',
+            'type' => 'text',
+        )
+    );
+
+    //description du titre
+    $wp_customize->add_setting("pcms_services_s2_title_description", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+
+    $wp_customize->add_control(
+        "pcms_services_s2_title_description",
+        array(
+            'label' => "Description de la section 2",
+            'section' => 'pcms_services',
+            'type' => 'textarea',
+        )
+    );
+
+    //image 
+    $wp_customize->add_setting("pcms_services_s2_image", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Image_Control( 
+        $wp_customize, 
+        "pcms_services_s2_image", 
+        array(
+            'label'    => "Image de la section 2",
+            'section'  => 'pcms_services',
+            ) 
+        ) 
+    );
+}
+
+
+/* SECTION */
+/*  PARTNERS */
+add_action('customize_register', 'pcms_partners');
+function pcms_partners ( $wp_customize ) { 
+    $wp_customize->add_section( 'pcms_partners', array(
+        'title' =>  'Projet CMS - Partners',
+        'description' => 'Customisation : Parteners',
+        'priority' => 8,
+        'section' => 'pcms_partners',
+	) );
+
+    /** PARTNERS - SECTION 1 **/
+    // demande d'affichage - default : true
+    $wp_customize->add_setting("pcms_partners_s1_enabled", array(
+        'type' => 'theme_mod',
+        'transport' => 'refresh',
+        'default' => true,
+    ));
+
+    $wp_customize->add_control(
+        "pcms_partners_s1_enabled",
+        array(
+            'label' => "Afficher la section 1",
+            'section' => 'pcms_partners',
+            'type' => 'checkbox',
+        )
+    );
+
+    $partners = array('partner-1', 'partner-2', 'partner-3', 'partner-4', 'partner-5', 'partner-6');
+    foreach ($partners as $partner) {
+        //lien du site
+        $wp_customize->add_setting("pcms_partners_link_${partner}", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control(
+            "pcms_partners_link_${partner}",
+            array(
+                'label' => "URL : ${partner}",
+                'section' => 'pcms_partners',
+                'type' => 'text',
+            )
+        );
+
+        //logo 
+        $wp_customize->add_setting("pcms_partners_logo_${partner}", array(
+            'type' => 'theme_mod',
+            'transport' => 'refresh',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control( new WP_Customize_Image_Control( 
+            $wp_customize, 
+            "pcms_partners_logo_${partner}", 
+            array(
+                'label'    => "Logo de : ${partner}",
+                'section'  => 'pcms_partners',
+                ) 
+            ) 
+        );
+    }
+
+}
+
+/* CUSTOM CSS */
+add_action( 'wp_head', 'pcms_css_output');
+function pcms_css_output(){
+    $pcms_f_bg = get_theme_mod('pcms_f_bg', '#050A3A');
+    $pcms_f_text_color = get_theme_mod('pcms_f_bg_text_color', '#FFFFFF');
+    $pcms_f_social_link = get_theme_mod('pcms_f_social_link', '#FFFFFF');
+    $pcms_f_link_color = get_theme_mod('pcms_f_link_color', '#FFFFFF');
+    $pcms_f_link_member_color = get_theme_mod('pcms_f_link_member_color', '#FFFFFF');
+    $pcms_h_menu_item = get_theme_mod('pcms_h_menu_item', '#FFFFFF');
+    $pcms_h_bg_menu_close = get_theme_mod('pcms_h_bg_menu_close', '#FFFFFF');
+    $pcms_h_bg_menu_close = hexToRgb($pcms_h_bg_menu_close);
+    $pcms_h_bg_alpha_menu_close = get_theme_mod('pcms_h_bg_alpha_menu_close', '1');
+    $pcms_h_bg_menu_open = get_theme_mod('pcms_h_bg_menu_open', '#050A3A');
+    $pcms_h_bg_menu_open = hexToRgb($pcms_h_bg_menu_open);
+    $pcms_h_bg_alpha_menu_open = get_theme_mod('pcms_h_bg_alpha_menu_open', '1');
+    $pcms_h_menu_close = get_theme_mod('pcms_h_menu_close', '#FFFFFF');
+    $pcms_h_menu_open = get_theme_mod('pcms_h_menu_open', '#050A3A');
+    $pcms_main_text_color = get_theme_mod('pcms_main_text_color', '#8A8A8A');
+	$pcms_main_color = get_theme_mod('pcms_main_color', '#050A3A');
+	echo "<style>
+			 :root{
+                --pcms-h-menu-item : $pcms_h_menu_item;
+                --pcms-h-bg-alpha-menu-close : $pcms_h_bg_alpha_menu_close;
+                --pcms-h-bg-menu-close : $pcms_h_bg_menu_close;
+                --pcms-h-bg-alpha-menu-open : $pcms_h_bg_alpha_menu_open;
+                --pcms-h-bg-menu-open : $pcms_h_bg_menu_open;
+                --pcms-h-menu-close : $pcms_h_menu_close;
+                --pcms-h-menu-open : $pcms_h_menu_open;
+			 	--pcms-main-color : $pcms_main_color;
+                --pcms-main-text-color: $pcms_main_text_color;  
+                --pmcs-f-bg : $pcms_f_bg;
+                --pmcs-f-text-color : $pcms_f_text_color;
+                --pcms-f-social-link : $pcms_f_social_link;
+                --pcms-f-link-color : $pcms_f_link_color;
+                --pcms-f-link--member-color : $pcms_f_link_member_color;
+			  }
+		</style>";
 }
 
 //HEX to RGBA
